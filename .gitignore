@@ -1,0 +1,14 @@
+./terraform/*
+!./terraform/main.tf
+!./terraform/provider.tf
+
+
+*.dll
+*.dylib
+*.exe
+*.exe~
+*.so
+
+# Testing
+*.test
+*.tmp
