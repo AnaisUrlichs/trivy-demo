@@ -1,0 +1,27 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: noderootpod
+  labels:
+  annotations:
+    container.apparmor.security.beta.kubernetes.io/noderootpod: unconfined
+spec:
+  hostNetwork: true
+  hostPID: true
+  hostIPC: true
+  containers:
+  - name: noderootpod
+    image: busybox:latest
+    securityContext:
+      privileged: true
+      capabilities:
+        add: ["ALL"]
+    volumeMounts:
+    - mountPath: /host
+      name: noderoot
+    command: [ "/bin/sh", "-c", "--" ]
+    args: [ "while true; do sleep 30; done;" ]
+  volumes:
+  - name: noderoot
+    hostPath:
+      path: /
