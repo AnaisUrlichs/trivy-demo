@@ -66,6 +66,23 @@ Scan your Terraform for vulnerabilities and misconfigurations:
 trivy config trivy-demo/bad_iac/terraform
 ```
 
+### Custom Policies
+
+Trivy makes it possible to scan custom policies defined in Rego.
+
+Note that if Rego is not your cup of tea and you are focusing on Terraform scans, you can specify custom policies in JSON and YAML format in tfsec.
+
+The following file provides a custom polocy that compares a Kubernetes deployment and a Kubernetes service. It then scans them to see whether they have the same selectors applied:
+```
+cat custom-policies/combine-yaml.rego
+```
+
+The following command will run the scan:
+```
+
+
+```
+
 ### Scan your connected Kubernetes cluster
 
 The Trivy Kubernetes command scans any connected Kubernetes cluster for vulnerabilities, misconfigurations, exposed secrets and more.
@@ -73,27 +90,31 @@ The Trivy Kubernetes command scans any connected Kubernetes cluster for vulnerab
 To scan your entire cluster and receive a summary report use the following command:
 
 ```
-trivy k8s --report=summary
+trivy k8s --report summary cluster
 ```
 
 To scan a specific namespace in your cluster and receive a summary report use the following command:
 ```
-trivy k8s -n kube-system --report=summary
+trivy k8s --n kube-system --report summary cluster
 ```
 
 To receive a detailed report, you can use the `--report=all` flag. However, we would advice to only do that on specific namespaces or resources since you will be provided with a lot of detailed information:
 ```
-trivy k8s -n kube-system --report=all
+trivy k8s --n kube-system --report all cluster
 ```
 
 Similar to vulnerabilities, we can also filter in-cluster for specific vulnerabilty types:
 ```
-trivy k8s --severity=CRITICAL --report=all​
+trivy k8s --severity=CRITICAL --report all cluster
 ```
 
 With the trivy K8s command, you can also scan specific workloads that are running within your cluster:
 ```
-trivy k8s –n default --report=summary deployments/react-application
+trivy k8s -–n default --report summary cluster deployments/react-application
+```
+or
+```
+trivy k8s –-n app --report summary cluster deployments/react-application
 ```
 
 ## Trivy Operator

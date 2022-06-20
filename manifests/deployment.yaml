@@ -1,4 +1,3 @@
-
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -15,30 +14,13 @@ spec:
     spec:
       containers:
       - name: react-application
-        image: anaisurlichs/react-example-app:7.0.0
+        image: docker.io/anaisurlichs/react-example:0.0.1
         ports:
           - containerPort: 80
         imagePullPolicy: Always
         resources:
           limits:
             memory: 512Mi
-            cpu: 500m
-          requests:
-            memory: 256Mi
-            cpu: 500m
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: react-application
-  labels:
-    run: react-application
-spec:
-  type: NodePort
-  ports:
-  - port: 8080
-    targetPort: 80
-    protocol: TCP
-    name: http
-  selector:
-    run: react-application
+            cpu: 200m
+        securityContext:
+          allowPrivilegeEscalation: false

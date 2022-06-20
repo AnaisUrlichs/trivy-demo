@@ -1,8 +1,8 @@
-resource "helm_release" "starboard" {
-  name       = "starboard-operator"
+resource "helm_release" "trivy" {
+  name       = "trivy-operator"
 
   repository = "https://aquasecurity.github.io/helm-charts/"
-  chart      = "starboard-operator"
+  chart      = "trivy-operator"
 
   set {
     name  = "trivy.ignoreUnfixed"
