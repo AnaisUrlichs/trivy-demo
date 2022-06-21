@@ -79,8 +79,7 @@ cat custom-policies/combine-yaml.rego
 
 The following command will run the scan:
 ```
-
-
+trivy conf --severity CRITICAL --policy ./custom-policies/combine-yaml.rego --namespaces user ./manifests
 ```
 
 ### Scan your connected Kubernetes cluster
@@ -145,4 +144,3 @@ To get detailed information on the vulnerabilities, describe the Vulnerabilityre
 ```
 kubectl describe Vulnerabilityreports replicaset-react-application-79694589b9-react-application
 ```
-
