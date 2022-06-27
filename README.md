@@ -121,7 +121,7 @@ trivy k8s –-n app --report summary cluster deployments/react-application
 While you would use the Trivy CLI on your local machine or from within a CI/CD pipeline, the Trivy operator is installed inside your Kubernetes cluster. From there, it performs continuous scanning of your Kuberentes resources.
 Have a look at the documentation for more information:
 
-Installation options:
+Installation options: https://aquasecurity.github.io/trivy-operator/v0.0.8/
 
 ### Scan your connected Kubernetes cluster
 
