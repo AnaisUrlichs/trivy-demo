@@ -14,7 +14,6 @@ RUN apt-get update
 RUN apt-get install openssh-server
 
 # Not specifying a root user means the container will run as root
-# USER 10001
-
+USER 10001
 
 CMD ["/bin/bash"]

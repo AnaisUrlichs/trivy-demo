@@ -144,3 +144,13 @@ To get detailed information on the vulnerabilities, describe the Vulnerabilityre
 ```
 kubectl describe Vulnerabilityreports replicaset-react-application-79694589b9-react-application
 ```
+
+## Trivy Config
+
+The Trivy Config allows us to define the configurations for our security scans in a YAML manifest. An example is provided in this repository within [./trivy-config.yaml](./trivy-config.yaml)
+
+You can then use the config manifest in your security scans such as your image vulnerability scans:
+
+```
+trivy image --severity HIGH node:14
+```

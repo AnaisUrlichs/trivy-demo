@@ -1,0 +1,68 @@
+
+# Global Options
+
+# Same as '--quiet'
+# Default is false
+quiet: false
+
+# Same as '--debug'
+# Default is false
+debug: false
+
+# Same as '--insecure'
+# Default is false
+insecure: false
+
+# Same as '--timeout'
+# Default is '5m'
+timeout: 10m
+
+# Same as '--cache-dir'
+# Default is your system cache dir
+cache-dir: $HOME/.cache/trivy
+
+# Report Options
+
+# Same as '--format'
+# Default is 'table'
+format: json
+
+# Same as '--report' (available with 'trivy k8s')
+# Default is all
+report: summary
+
+# Same as '--dependency-tree'
+# Default is false
+dependency-tree: false
+
+# Same as '--list-all-pkgs'
+# Default is false
+list-all-pkgs: false
+
+# Same as '--ignorefile'
+# Default is '.trivyignore'
+ignorefile: .trivyignore
+
+# Same as '--exit-code'
+# Default is 0
+exit-code: 0
+
+# Same as '--output'
+# Default is empty (stdout)
+output: output.json
+
+# Same as '--severity'
+# Default is all severities
+severity:
+  - HIGH
+  - CRITICAL
+
+# Scan Options
+
+scan:
+  # Same as '--security-checks'
+  # Default depends on subcommand
+  security-checks:
+    - vuln
+    - config
+    - secret

@@ -1,0 +1,148 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    deployment.kubernetes.io/revision: "2"
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"apps/v1","kind":"Deployment","metadata":{"annotations":{"deployment.kubernetes.io/revision":"1","meta.helm.sh/release-name":"trivy-operator","meta.helm.sh/release-namespace":"demo-playground"},"creationTimestamp":"2022-06-27T16:53:56Z","generation":1,"labels":{"app.kubernetes.io/instance":"trivy-operator","app.kubernetes.io/managed-by":"Helm","app.kubernetes.io/name":"trivy-operator","app.kubernetes.io/version":"0.0.8","helm.sh/chart":"trivy-operator-0.0.8"},"name":"trivy-operator","namespace":"demo-playground","resourceVersion":"54986655","uid":"1cf20216-46b0-41d4-a83c-ad1c541959c0"},"spec":{"progressDeadlineSeconds":600,"replicas":1,"revisionHistoryLimit":10,"selector":{"matchLabels":{"app.kubernetes.io/instance":"trivy-operator","app.kubernetes.io/name":"trivy-operator"}},"strategy":{"type":"Recreate"},"template":{"metadata":{"creationTimestamp":null,"labels":{"app.kubernetes.io/instance":"trivy-operator","app.kubernetes.io/name":"trivy-operator"}},"spec":{"automountServiceAccountToken":true,"containers":[{"args":["--webhook=http://postee-svc:8082","--webhook-template=./templates/rawjson.tmpl","--webhook-content-type=application/json"],"env":[{"name":"OPERATOR_NAMESPACE","value":"demo-playground"},{"name":"OPERATOR_TARGET_NAMESPACES","value":"demo-playground"},{"name":"OPERATOR_EXCLUDE_NAMESPACES","value":"kube-system,demo-playground"},{"name":"OPERATOR_SERVICE_ACCOUNT","value":"trivy-operator"},{"name":"OPERATOR_LOG_DEV_MODE","value":"false"},{"name":"OPERATOR_SCAN_JOB_TIMEOUT","value":"5m"},{"name":"OPERATOR_CONCURRENT_SCAN_JOBS_LIMIT","value":"4"},{"name":"OPERATOR_SCAN_JOB_RETRY_AFTER","value":"30s"},{"name":"OPERATOR_BATCH_DELETE_LIMIT","value":"10"},{"name":"OPERATOR_BATCH_DELETE_DELAY","value":"10s"},{"name":"OPERATOR_METRICS_BIND_ADDRESS","value":":8080"},{"name":"OPERATOR_HEALTH_PROBE_BIND_ADDRESS","value":":9090"},{"name":"OPERATOR_CIS_KUBERNETES_BENCHMARK_ENABLED","value":"false"},{"name":"OPERATOR_VULNERABILITY_SCANNER_ENABLED","value":"true"},{"name":"OPERATOR_VULNERABILITY_SCANNER_SCAN_ONLY_CURRENT_REVISIONS","value":"false"},{"name":"OPERATOR_VULNERABILITY_SCANNER_REPORT_TTL"},{"name":"OPERATOR_CONFIG_AUDIT_SCANNER_ENABLED","value":"true"},{"name":"OPERATOR_CONFIG_AUDIT_SCANNER_SCAN_ONLY_CURRENT_REVISIONS","value":"false"},{"name":"OPERATOR_CLUSTER_COMPLIANCE_ENABLED","value":"false"}],"image":"docker.io/aquasec/trivy-operator:0.0.8","imagePullPolicy":"IfNotPresent","livenessProbe":{"failureThreshold":10,"httpGet":{"path":"/healthz/","port":"probes","scheme":"HTTP"},"initialDelaySeconds":5,"periodSeconds":10,"successThreshold":1,"timeoutSeconds":1},"name":"trivy-operator","ports":[{"containerPort":8080,"name":"metrics","protocol":"TCP"},{"containerPort":9090,"name":"probes","protocol":"TCP"}],"readinessProbe":{"failureThreshold":3,"httpGet":{"path":"/readyz/","port":"probes","scheme":"HTTP"},"initialDelaySeconds":5,"periodSeconds":10,"successThreshold":1,"timeoutSeconds":1},"resources":{},"securityContext":{"allowPrivilegeEscalation":false,"capabilities":{"drop":["ALL"]},"privileged":false,"readOnlyRootFilesystem":true},"terminationMessagePath":"/dev/termination-log","terminationMessagePolicy":"File"}],"dnsPolicy":"ClusterFirst","restartPolicy":"Always","schedulerName":"default-scheduler","securityContext":{},"serviceAccount":"trivy-operator","serviceAccountName":"trivy-operator","terminationGracePeriodSeconds":30}}},"status":{"availableReplicas":1,"conditions":[{"lastTransitionTime":"2022-06-27T16:54:06Z","lastUpdateTime":"2022-06-27T16:54:06Z","message":"Deployment has minimum availability.","reason":"MinimumReplicasAvailable","status":"True","type":"Available"},{"lastTransitionTime":"2022-06-27T16:53:56Z","lastUpdateTime":"2022-06-27T16:54:06Z","message":"ReplicaSet \"trivy-operator-6d4f555b67\" has successfully progressed.","reason":"NewReplicaSetAvailable","status":"True","type":"Progressing"}],"observedGeneration":1,"readyReplicas":1,"replicas":1,"updatedReplicas":1}}
+    meta.helm.sh/release-name: trivy-operator
+    meta.helm.sh/release-namespace: demo-playground
+  creationTimestamp: "2022-06-27T16:53:56Z"
+  generation: 2
+  labels:
+    app.kubernetes.io/instance: trivy-operator
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: trivy-operator
+    app.kubernetes.io/version: 0.0.8
+    helm.sh/chart: trivy-operator-0.0.8
+  name: trivy-operator
+  namespace: demo-playground
+  resourceVersion: "54988205"
+  uid: 1cf20216-46b0-41d4-a83c-ad1c541959c0
+spec:
+  progressDeadlineSeconds: 600
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app.kubernetes.io/instance: trivy-operator
+      app.kubernetes.io/name: trivy-operator
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app.kubernetes.io/instance: trivy-operator
+        app.kubernetes.io/name: trivy-operator
+    spec:
+      automountServiceAccountToken: true
+      containers:
+      - args:
+        - --webhook=http://posteeui.demo-playground:8082
+        - --webhook-template=./templates/rawjson.tmpl
+        - --webhook-content-type=application/json
+        env:
+        - name: OPERATOR_NAMESPACE
+          value: demo-playground
+        - name: OPERATOR_TARGET_NAMESPACES
+          value: demo-playground
+        - name: OPERATOR_EXCLUDE_NAMESPACES
+          value: kube-system,demo-playground
+        - name: OPERATOR_SERVICE_ACCOUNT
+          value: trivy-operator
+        - name: OPERATOR_LOG_DEV_MODE
+          value: "false"
+        - name: OPERATOR_SCAN_JOB_TIMEOUT
+          value: 5m
+        - name: OPERATOR_CONCURRENT_SCAN_JOBS_LIMIT
+          value: "4"
+        - name: OPERATOR_SCAN_JOB_RETRY_AFTER
+          value: 30s
+        - name: OPERATOR_BATCH_DELETE_LIMIT
+          value: "10"
+        - name: OPERATOR_BATCH_DELETE_DELAY
+          value: 10s
+        - name: OPERATOR_METRICS_BIND_ADDRESS
+          value: :8080
+        - name: OPERATOR_HEALTH_PROBE_BIND_ADDRESS
+          value: :9090
+        - name: OPERATOR_CIS_KUBERNETES_BENCHMARK_ENABLED
+          value: "false"
+        - name: OPERATOR_VULNERABILITY_SCANNER_ENABLED
+          value: "true"
+        - name: OPERATOR_VULNERABILITY_SCANNER_SCAN_ONLY_CURRENT_REVISIONS
+          value: "false"
+        - name: OPERATOR_VULNERABILITY_SCANNER_REPORT_TTL
+        - name: OPERATOR_CONFIG_AUDIT_SCANNER_ENABLED
+          value: "true"
+        - name: OPERATOR_CONFIG_AUDIT_SCANNER_SCAN_ONLY_CURRENT_REVISIONS
+          value: "false"
+        - name: OPERATOR_CLUSTER_COMPLIANCE_ENABLED
+          value: "false"
+        image: docker.io/aquasec/trivy-operator:0.0.8
+        imagePullPolicy: IfNotPresent
+        livenessProbe:
+          failureThreshold: 10
+          httpGet:
+            path: /healthz/
+            port: probes
+            scheme: HTTP
+          initialDelaySeconds: 5
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 1
+        name: trivy-operator
+        ports:
+        - containerPort: 8080
+          name: metrics
+          protocol: TCP
+        - containerPort: 9090
+          name: probes
+          protocol: TCP
+        readinessProbe:
+          failureThreshold: 3
+          httpGet:
+            path: /readyz/
+            port: probes
+            scheme: HTTP
+          initialDelaySeconds: 5
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 1
+        resources: {}
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+            - ALL
+          privileged: false
+          readOnlyRootFilesystem: true
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      serviceAccount: trivy-operator
+      serviceAccountName: trivy-operator
+      terminationGracePeriodSeconds: 30
+status:
+  availableReplicas: 1
+  conditions:
+  - lastTransitionTime: "2022-06-27T16:59:55Z"
+    lastUpdateTime: "2022-06-27T16:59:55Z"
+    message: Deployment has minimum availability.
+    reason: MinimumReplicasAvailable
+    status: "True"
+    type: Available
+  - lastTransitionTime: "2022-06-27T16:53:56Z"
+    lastUpdateTime: "2022-06-27T16:59:55Z"
+    message: ReplicaSet "trivy-operator-bc6774988" has successfully progressed.
+    reason: NewReplicaSetAvailable
+    status: "True"
+    type: Progressing
+  observedGeneration: 2
+  readyReplicas: 1
+  replicas: 1
+  updatedReplicas: 1

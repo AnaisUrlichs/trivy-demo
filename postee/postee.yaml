@@ -1,0 +1,41 @@
+# The configuration file contains a general settings section,
+# routes, templates and actions sections.
+
+name: tenant            #  The tenant name
+aqua-server: "" #ßhttp://trivy-operator.demo-playground:80           #  URL of Aqua Server for links. E.g. https://myserver.aquasec.com
+max-db-size: 1000MB       #  Max size of DB. <numbers><unit suffix> pattern is used, such as "300MB" or "1GB". If empty or 0 then unlimited
+db-verify-interval: 1   #  How often to check the DB size. By default, Postee checks every 1 hour
+
+# Routes are used to define how to handle an incoming message
+routes:
+- name: stdout
+  actions: [ stdout ]
+  template: raw-json
+
+- name: route1
+  input: |
+    input.vulnerability_summary.critical>0
+    input.vulnerability_summary.high>0
+    input.vulnerability_summary.medium>0       
+  actions: [my-slack]                         
+  template: vuls-slack                    
+  plugins: 
+  unique-message-props: ["digest","image","registry", "vulnerability_summary.high", "vulnerability_summary.critical", "vulnerability_summary.medium", "vulnerability_summary_low"]
+  unique-message-timeout: 30d
+
+templates:
+- name: vuls-slack
+  rego-package:  postee.vuls.slack
+
+# Actions are target services that should consume the messages
+actions:
+- name: stdout
+  type: stdout
+  enable: true
+    
+- name: my-slack
+  type: slack
+  enable: true
+  url: https://hooks.slack.com/services/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
+
+
