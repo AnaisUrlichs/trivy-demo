@@ -18,6 +18,8 @@ Below are some of the commands that can be used through the Trivy CLI.
 
 ### Vulnerability Scans
 
+[**Documentation**](https://aquasecurity.github.io/trivy/latest/docs/vulnerability/scanning/)
+
 Scan a container image for vulnerabilities:
 ```
 trivy i ubuntu:20.04
@@ -46,6 +48,8 @@ trivy fs ./sycamore/
 
 ### Misconfiguration Scans
 
+[**Documentation**](https://aquasecurity.github.io/trivy/latest/docs/misconfiguration/scanning/)
+
 Scan all of your infrastructure configuration for vulnerabilities:
 ```
 ls trivy-demo/bad_iac
@@ -68,6 +72,8 @@ trivy config trivy-demo/bad_iac/terraform
 
 ### Custom Policies
 
+[**Documentation**](https://aquasecurity.github.io/trivy/latest/docs/misconfiguration/custom/)
+
 Trivy makes it possible to scan custom policies defined in Rego.
 
 Note that if Rego is not your cup of tea and you are focusing on Terraform scans, you can specify custom policies in JSON and YAML format in tfsec.
@@ -83,6 +89,8 @@ trivy conf --severity CRITICAL --policy ./custom-policies/combine-yaml.rego --na
 ```
 
 ### Scan your connected Kubernetes cluster
+
+[**Documentation**](https://aquasecurity.github.io/trivy/latest/docs/kubernetes/cli/scanning/)
 
 The Trivy Kubernetes command scans any connected Kubernetes cluster for vulnerabilities, misconfigurations, exposed secrets and more.
 
@@ -118,6 +126,8 @@ trivy k8s –-n app --report summary cluster deployments/react-application
 
 ## Trivy Operator
 
+[**Documentation**](https://aquasecurity.github.io/trivy-operator/latest)
+
 While you would use the Trivy CLI on your local machine or from within a CI/CD pipeline, the Trivy operator is installed inside your Kubernetes cluster. From there, it performs continuous scanning of your Kuberentes resources.
 Have a look at the documentation for more information:
 
@@ -147,10 +157,58 @@ kubectl describe Vulnerabilityreports replicaset-react-application-79694589b9-re
 
 ## Trivy Config
 
+[**Documentation**](https://aquasecurity.github.io/trivy/latest/docs/references/customization/config-file/)
+
 The Trivy Config allows us to define the configurations for our security scans in a YAML manifest. An example is provided in this repository within [./trivy-config.yaml](./trivy-config.yaml)
 
 You can then use the config manifest in your security scans such as your image vulnerability scans:
 
 ```
 trivy image --severity HIGH node:14
+```
+
+## Trivy SBOM & Attestation
+
+[**Documentation**](https://aquasecurity.github.io/trivy/latest/docs/sbom/)
+
+For more information watch the following tutorials:
+
+1. [Generate SBOMs with Trivy & Scan SBOMs for vulnerabilities](https://youtu.be/Kibk6qq7ZCs)
+2. TBD
+
+Trivy can generate SBOMs in the following three formats SPDX, SPDX-json, and CycloneDX.
+
+Command structure:
+```
+trivy image --format <spdx,spdx-json,cyclonedx> -o <sbom.spdx,sbom.spdx.json,sbom.json> <IMAGE> 
+```
+
+Example:
+```
+trivy image --format spdx -o sbom.spdx anaisurlichs/cns-website:0.0.6 
+```
+
+An attestation can be generated with Cosign and in-toto. For this, first generate a key-pair with Cosign:
+```
+cosign generate-key-pair
+```
+
+Creater the attestation fo the SBOM with your private-key with the following structure:
+```
+cosign attest --key /path/to/cosign.key --type spdx --predicate sbom.spdx <IMAGE>
+```
+
+Example:
+```
+cosign attest --key ./cosign.key --type spdx --predicate sbom.spdx anaisurlichs/cns-website:0.0.6 
+```
+
+Verify the attestation with your public key:
+```
+cosign attest --key /path/to/cosign.pub --type spdx --predicate sbom.spdx <IMAGE> 
+```
+
+Following the example again:
+```
+cosign attest --key /path/to/cosign.pub --type spdx --predicate sbom.spdx <IMAGE> 
 ```
